@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,9 +23,9 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         // IMPORTANT: Ensure your FastAPI uses "email" and "password" as keys
-        body: JSON.stringify({ 
-          email: email, 
-          password: password 
+        body: JSON.stringify({
+          email: email,
+          password: password
         }),
       });
 
@@ -37,21 +39,22 @@ const Login = () => {
 
         setStatus({ type: 'success', message: 'Login successful! Redirecting...' });
         console.log("Success! Tokens stored in LocalStorage:", data);
-        
-        // You can add redirection here, e.g., window.location.href = '/dashboard';
+
+        // Redirect to dashboard after a short delay
+        setTimeout(() => navigate('/dashboard'), 800);
       } else {
         // 2. Handle "Invalid email or password"
-        setStatus({ 
-          type: 'error', 
-          message: data.detail || 'Invalid email or password. Please try again.' 
+        setStatus({
+          type: 'error',
+          message: data.detail || 'Invalid email or password. Please try again.'
         });
         console.error("Backend rejected login:", data);
       }
     } catch (err) {
       // 3. Handle Connection Errors
-      setStatus({ 
-        type: 'error', 
-        message: 'Could not connect to server. Is FastAPI running on port 8000?' 
+      setStatus({
+        type: 'error',
+        message: 'Could not connect to server. Is FastAPI running on port 8000?'
       });
       console.error("Connection error:", err);
     } finally {
@@ -72,14 +75,13 @@ const Login = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-xl border border-gray-100 sm:rounded-2xl sm:px-10">
-          
+
           {/* Status Message Box */}
           {status.message && (
-            <div className={`mb-6 p-4 rounded-lg text-sm border-l-4 font-medium ${
-              status.type === 'success' 
-                ? 'bg-green-50 border-green-500 text-green-800' 
+            <div className={`mb-6 p-4 rounded-lg text-sm border-l-4 font-medium ${status.type === 'success'
+                ? 'bg-green-50 border-green-500 text-green-800'
                 : 'bg-red-50 border-red-500 text-red-800'
-            }`}>
+              }`}>
               {status.message}
             </div>
           )}
@@ -112,11 +114,10 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full flex justify-center py-3 px-4 rounded-lg shadow-md text-sm font-bold text-white transition-all ${
-                loading 
-                  ? 'bg-indigo-400 cursor-not-allowed' 
+              className={`w-full flex justify-center py-3 px-4 rounded-lg shadow-md text-sm font-bold text-white transition-all ${loading
+                  ? 'bg-indigo-400 cursor-not-allowed'
                   : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg active:scale-95'
-              }`}
+                }`}
             >
               {loading ? 'Verifying...' : 'Sign in'}
             </button>
