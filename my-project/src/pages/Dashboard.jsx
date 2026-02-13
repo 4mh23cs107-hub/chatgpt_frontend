@@ -17,7 +17,7 @@ const Dashboard = () => {
 
   const fetchConversations = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/conversations', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/conversations`, {
         headers: { 'Authorization': `Bearer ${accessToken}` }
       });
       if (response.ok) {
@@ -43,7 +43,7 @@ const Dashboard = () => {
     setActiveConversationId(id);
     setIsLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/history/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/history/${id}`, {
         headers: { 'Authorization': `Bearer ${accessToken}` }
       });
       if (response.ok) {
@@ -75,7 +75,7 @@ const Dashboard = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/ask', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/ask`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const Dashboard = () => {
     if (!window.confirm("Are you sure you want to delete this chat?")) return;
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/conversation/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/conversation/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${accessToken}` }
       });

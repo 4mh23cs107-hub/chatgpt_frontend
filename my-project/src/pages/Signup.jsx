@@ -21,7 +21,7 @@ const Signup = () => {
 
         try {
             // This is the part that sends data to FastAPI
-            const response = await fetch('http://127.0.0.1:8000/signup', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE}/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

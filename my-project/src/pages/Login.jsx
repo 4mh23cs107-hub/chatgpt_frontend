@@ -17,7 +17,7 @@ const Login = () => {
     console.log("Attempting login with:", { email, password });
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const Login = () => {
       // 3. Handle Connection Errors
       setStatus({
         type: 'error',
-        message: 'Could not connect to server. Is FastAPI running on port 8000?'
+        message: 'Could not connect to server. Please check your connection and try again.'
       });
       console.error("Connection error:", err);
     } finally {
@@ -79,8 +79,8 @@ const Login = () => {
           {/* Status Message Box */}
           {status.message && (
             <div className={`mb-6 p-4 rounded-lg text-sm border-l-4 font-medium ${status.type === 'success'
-                ? 'bg-green-50 border-green-500 text-green-800'
-                : 'bg-red-50 border-red-500 text-red-800'
+              ? 'bg-green-50 border-green-500 text-green-800'
+              : 'bg-red-50 border-red-500 text-red-800'
               }`}>
               {status.message}
             </div>
@@ -115,8 +115,8 @@ const Login = () => {
               type="submit"
               disabled={loading}
               className={`w-full flex justify-center py-3 px-4 rounded-lg shadow-md text-sm font-bold text-white transition-all ${loading
-                  ? 'bg-indigo-400 cursor-not-allowed'
-                  : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg active:scale-95'
+                ? 'bg-indigo-400 cursor-not-allowed'
+                : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg active:scale-95'
                 }`}
             >
               {loading ? 'Verifying...' : 'Sign in'}
